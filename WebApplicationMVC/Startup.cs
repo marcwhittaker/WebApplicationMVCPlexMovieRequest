@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using WebApplicationMVC.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WebApplicationMVC.Models;
 
 namespace WebApplicationMVC
 {
@@ -41,6 +42,9 @@ namespace WebApplicationMVC
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddDbContext<MoviesContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("MoviesContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,7 +71,7 @@ namespace WebApplicationMVC
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Movies}/{action=Index}/{id?}");
             });
         }
     }
